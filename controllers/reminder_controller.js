@@ -29,10 +29,10 @@ const reminderController = {
   },
   enableReminder: async (req, res) => {
     try {
-      const { id, name, enabled } = req.body;
+      const { name, enabled } = req.body;
       const query =
-        "INSERT INTO reminder(id, name, enabled) VALUES($1, $2, $3) RETURNING *";
-      const { rows } = await postgre.query(query, [id, name, enabled]);
+        "INSERT INTO reminder(name, enabled) VALUES($1, $2) RETURNING *";
+      const { rows } = await postgre.query(query, [name, enabled]);
 
       res.json({
         status: 201,
