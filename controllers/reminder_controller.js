@@ -2,10 +2,9 @@ const postgre = require("../database");
 const reminderController = {
   getReminder: async (req, res) => {
     try {
-      const { id } = req.params;
       const { row } = await postgre.query(
         "SELECT * FROM reminder WHERE id=$1",
-        [id]
+        [req.params.id]
       );
 
       if (row[0]) {
