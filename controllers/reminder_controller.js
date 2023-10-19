@@ -7,17 +7,10 @@ const reminderController = {
         [req.params.id]
       );
 
-      if (row[0]) {
-        res.json({
-          status: 200,
-          message: "",
-          data: row,
-        });
-      }
-
       res.json({
-        status: 404,
-        message: "Reminder not found",
+        status: 200,
+        message: "",
+        data: row,
       });
     } catch (error) {
       res.json({
