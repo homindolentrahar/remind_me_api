@@ -53,7 +53,7 @@ const reminderController = {
       const { rows } = await postgre.query(query, [enabled, req.params.id]);
 
       if (rows[0]) {
-        res.json({
+        return res.json({
           status: 200,
           message: "Reminder toggled",
           data: rows[0],
