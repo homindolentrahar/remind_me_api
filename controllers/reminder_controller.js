@@ -2,15 +2,22 @@ const postgre = require("../database");
 const reminderController = {
   getReminder: async (req, res) => {
     try {
-      const { row } = await postgre.query(
+      const { rows } = await postgre.query(
         "SELECT * FROM reminder WHERE id=$1",
         [req.params.id]
       );
 
+      if (rows[0]) {
+        return res.json({
+          status: 200,
+          message: "",
+          data: rows[0],
+        });
+      }
+
       res.json({
-        status: 200,
-        message: "",
-        data: row,
+        status: 404,
+        message: "Reminder not found",
       });
     } catch (error) {
       res.json({
@@ -45,10 +52,17 @@ const reminderController = {
         "UPDATE reminder SET enabled = $1 WHERE id = $2 RETURNING *";
       const { rows } = await postgre.query(query, [enabled, req.params.id]);
 
+      if (rows[0]) {
+        res.json({
+          status: 200,
+          message: "Reminder toggled",
+          data: rows[0],
+        });
+      }
+
       res.json({
-        status: 200,
-        message: "Reminder toggled",
-        data: rows[0],
+        status: 404,
+        message: "Reminder not found",
       });
     } catch (error) {
       res.json({
