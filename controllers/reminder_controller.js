@@ -1,5 +1,21 @@
 const postgre = require("../database");
 const reminderController = {
+  getAllReminders: async (req, res) => {
+    try {
+      const { rows } = await postgre.query("SELECT * FROM reminder");
+
+      res.json({
+        status: 200,
+        message: "",
+        data: rows,
+      });
+    } catch (error) {
+      res.json({
+        status: error.status,
+        message: error.message,
+      });
+    }
+  },
   getReminder: async (req, res) => {
     try {
       const { rows } = await postgre.query(
